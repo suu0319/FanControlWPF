@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanControlWPF", "FanControlWPF\FanControlWPF.csproj", "{3B800420-CC02-4A63-A365-F2338AB606E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibreHardwareMonitorLib", "LibreHardwareMonitorLib\LibreHardwareMonitorLib.csproj", "{86BA3DA5-1748-4586-80E0-DF075DD062D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibreHardwareMonitorLibrary", "LibreHardwareMonitorLibrary\LibreHardwareMonitorLibrary.csproj", "{22A067A9-9380-485E-9692-6FC0D89D6612}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B800420-CC02-4A63-A365-F2338AB606E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B800420-CC02-4A63-A365-F2338AB606E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B800420-CC02-4A63-A365-F2338AB606E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B800420-CC02-4A63-A365-F2338AB606E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86BA3DA5-1748-4586-80E0-DF075DD062D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86BA3DA5-1748-4586-80E0-DF075DD062D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86BA3DA5-1748-4586-80E0-DF075DD062D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86BA3DA5-1748-4586-80E0-DF075DD062D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22A067A9-9380-485E-9692-6FC0D89D6612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22A067A9-9380-485E-9692-6FC0D89D6612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22A067A9-9380-485E-9692-6FC0D89D6612}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22A067A9-9380-485E-9692-6FC0D89D6612}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
