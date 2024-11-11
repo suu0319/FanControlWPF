@@ -1,6 +1,7 @@
 ﻿using LibreHardwareMonitor.Hardware;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,47 +11,20 @@ namespace LibreHardwareMonitorLibrary
     {
         private static readonly Lazy<HardwareMonitoringHelper> lazy = new Lazy<HardwareMonitoringHelper>(() => new HardwareMonitoringHelper());
         private readonly Computer _computer;
-
-        public Computer Computer
-        {
-            get => _computer;
-        }
-
         private readonly UpdateVisitor _updateVisitor = new UpdateVisitor();
-
-        public UpdateVisitor UpdateVisitor
-        {
-            get => _updateVisitor;
-        }
-
         private const int DATA_PULLING_RATE = 200;
         private List<HardwareInfoGroup> _hardwareInfoGroups = new List<HardwareInfoGroup>();
         private bool _startGetData = false;
         private int _initCount = 0;
-        public Action<HardwareInfo, bool> Calibrating { get; set; }
         public bool IsCalibrated { get; set; } = false;
-
         public event Action Calibrated;
-        public string MotherboardName { get; private set; }
         public static HardwareMonitoringHelper Instance => lazy.Value;
 
         public HardwareMonitoringHelper()
         {
             _computer = GetComputer();
-            OnlyGetMotherboardName();
             StartGetData();
             GetSensors();
-        }
-
-        private void OnlyGetMotherboardName()
-        {
-            if (_computer != null)
-            {
-                foreach (IHardware hardware in _computer.Hardware)
-                {
-                    GetMotherboardName(hardware);
-                }
-            }
         }
 
         private Computer GetComputer()
@@ -80,36 +54,60 @@ namespace LibreHardwareMonitorLibrary
             }
         }
 
-        private void GetSensors()
+         private void GetSensors()
         {
             _hardwareInfoGroups = new List<HardwareInfoGroup>();
 
-            foreach (IHardware hardware in _computer?.Hardware)
+            foreach (IHardware hardware in _computer.Hardware)
             {
-                GetMotherboardName(hardware);
-
                 List<HardwareInfo> hardwareInfos = new List<HardwareInfo>();
-                foreach (IHardware subhardware in hardware.SubHardware)
+                List<ISensor> controls;
+                List<ISensor> fans;
+                
+                foreach (var subHardware in hardware.SubHardware)
                 {
-                    foreach (ISensor sensor in subhardware.Sensors)
+                    controls = subHardware.Sensors
+                        .Where(x => x.SensorType == SensorType.Control && x.Name.Contains("Fan")).ToList();
+                    fans = subHardware.Sensors.
+                        Where(x => x.SensorType == SensorType.Fan && x.Name.Contains("Fan")).ToList();
+                    
+                    foreach (var fan in fans)
                     {
-                        CheckSensorAndCreateHardwareInfo(hardwareInfos, sensor);
+                        var control = controls.Find(x => x.Name == fan.Name);
+
+                        if (control != null)
+                        {
+                            CheckSensorAndCreateHardwareInfo(hardwareInfos, fan, control);
+                        }
+                        else
+                        {
+                            CheckSensorAndCreateHardwareInfo(hardwareInfos, fan);
+                        }
                     }
                 }
 
-                foreach (ISensor sensor in hardware.Sensors)
+                if (hardware.Sensors != null && hardware.Sensors.Length > 0)
                 {
-                    CheckSensorAndCreateHardwareInfo(hardwareInfos, sensor);
+                    controls = hardware.Sensors
+                        .Where(x => x.SensorType == SensorType.Control && x.Name.Contains("GPU Fan")).ToList();
+                    fans = hardware.Sensors
+                        .Where(x => x.SensorType == SensorType.Fan && x.Name.Contains("GPU")).ToList();
+                
+                    for (var i = 0; i < fans.Count; i++)
+                    {
+                        if (controls.Count > i)
+                        {
+                            CheckSensorAndCreateHardwareInfo(hardwareInfos, fans[i], controls[i]);
+                        }
+                        else
+                        {
+                            CheckSensorAndCreateHardwareInfo(hardwareInfos, fans[i]);
+                        }
+                    }
                 }
-
+                
                 _hardwareInfoGroups.Add(new HardwareInfoGroup(hardwareInfos));
             }
-        }
-
-        private void GetMotherboardName(IHardware hardware)
-        {
-            if (hardware.HardwareType == HardwareType.Motherboard)
-                MotherboardName = hardware.Name;
         }
 
         public void RunCalibration()
@@ -151,28 +149,12 @@ namespace LibreHardwareMonitorLibrary
             });
         }
 
-        private void CheckSensorAndCreateHardwareInfo(List<HardwareInfo> hardwareInfos, ISensor sensor)
+        private void CheckSensorAndCreateHardwareInfo(List<HardwareInfo> hardwareInfos, ISensor rpmSensor, ISensor percentageSensor = null)
         {
-            if (sensor.Name.Contains("Fan"))
-            {
-                int index = hardwareInfos.FindIndex(x => x.Name == sensor.Name);
-                if (index != -1)
-                {
-                    hardwareInfos[index].Calibrating += CalibrateInvoke;
-                    hardwareInfos[index].SetSensor(sensor);
-                }
-                else
-                {
-                    string name = sensor.Name;
-                    HardwareInfo hardwareInfo = new HardwareInfo(name, sensor);
-                    hardwareInfos.Add(hardwareInfo);
-                }
-            }
-        }
-
-        private void CalibrateInvoke(HardwareInfo hardwareInfo, bool isCalibrating)
-        {
-            Calibrating?.Invoke(hardwareInfo, isCalibrating);
+            var name = rpmSensor.Name;
+            var hardwareInfo = new HardwareInfo(name, rpmSensor, percentageSensor);
+            
+            hardwareInfos.Add(hardwareInfo);
         }
 
         private void StartGetData()

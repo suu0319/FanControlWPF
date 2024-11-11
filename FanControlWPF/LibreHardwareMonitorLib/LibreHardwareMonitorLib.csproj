@@ -18,6 +18,7 @@
     <RepositoryUrl>https://github.com/LibreHardwareMonitor/LibreHardwareMonitor</RepositoryUrl>
     <LangVersion>latest</LangVersion>
     <PackageIcon>packageicon.png</PackageIcon>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <OutputPath>..\bin\Debug\</OutputPath>
@@ -47,8 +48,5 @@
     <None Include="Resources\packageicon.png" PackagePath="">
       <Pack>True</Pack>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HidSharp\HidSharp.NETStandard.csproj" />
   </ItemGroup>
 </Project>

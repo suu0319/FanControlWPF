@@ -1,6 +1,7 @@
 ﻿using LibreHardwareMonitor.Hardware;
-using LibreHardwareMonitorLibrary.Enums;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,15 +9,12 @@ namespace LibreHardwareMonitorLibrary
 {
     public class HardwareInfo
     {
-        public string ParentHardwareName { get; private set; }
         public ISensor PercentageSensor { get; private set; }
         public ISensor RPMSensor { get; private set; }
         public string Name { get; private set; }
-        public HardwareDeviceType DeviceType { get; private set; }
         public int RPM { get; private set; }
         public int Percentage { get; private set; }
         public int TargetPercentage { get; private set; }
-        public Action<HardwareInfo> DataUpdate { get; set; }
         public bool Controlable { get; set; } = true;
         public bool Calibrated { get; set; } = false;
         
@@ -27,41 +25,15 @@ namespace LibreHardwareMonitorLibrary
 
         private const int TEN_SECOND = 10000;
 
-        public HardwareInfo(string name, ISensor sensor)
+        public HardwareInfo(string name, ISensor rpmSensor, ISensor percentageSensor = null)
         {
             Name = name;
-            ParentHardwareName = sensor.Hardware.Name;
-            if (sensor.Control != null)
-                PercentageSensor = sensor;
-            else
-                RPMSensor = sensor;
-            DeviceType = (HardwareDeviceType)sensor.Hardware.HardwareType;
+            PercentageSensor = percentageSensor;
+            RPMSensor = rpmSensor;
 
             StartGetData();
         }
-
-        /// <summary>
-        /// Add the second sensor into this fan control
-        /// </summary>
-        /// <param name="sensor"></param>
-        public void SetSensor(ISensor sensor)
-        {
-            if (sensor.Control != null)
-            {
-                if (PercentageSensor == null)
-                    PercentageSensor = sensor;
-                else
-                    Console.WriteLine($"{Name} set sensor error, detects 2 PercentageSensor");
-            }
-            else
-            {
-                if (RPMSensor == null)
-                    RPMSensor = sensor;
-                else
-                    Console.WriteLine($"{Name} set sensor error, detects 2 RPMSensor");
-            }
-        }
-
+        
         /// <summary>
         /// Set fan speed percentage
         /// </summary>
@@ -83,7 +55,6 @@ namespace LibreHardwareMonitorLibrary
                     {
                         Percentage = (int)PercentageSensor.Value;
                         RPM = (int)RPMSensor.Value;
-                        DataUpdate?.Invoke(this);
                     }
                     Thread.Sleep(200);
                 }
@@ -95,6 +66,7 @@ namespace LibreHardwareMonitorLibrary
             PercentageSensor.Control.SetDefault();
         }
 
+        
         public void Calibrate()
         {
             if (RPMSensor == null || PercentageSensor == null)
@@ -104,29 +76,34 @@ namespace LibreHardwareMonitorLibrary
                 Calibrated = true;
                 return;
             }
-
-            Calibrated = false;
+            
             Task.Run(() => 
             {
                 CalibrateCallback();
             });
 
-            SetPercentage(100);
-            Thread.Sleep(TEN_SECOND);
-            int initiateRPM = (int)RPMSensor.Value;
-            SetPercentage(10);
-            Thread.Sleep(TEN_SECOND);
-            Controlable = RPMSensor.Value / initiateRPM < 0.4;
-
-            if (Controlable && DeviceType == HardwareDeviceType.SuperIO)
-                SetPercentage(30);
-            else if (!Controlable)
-                SetAllDataZero();
+            Controlable = IsMutableRPM();
 
             Thread.Sleep(TEN_SECOND);
 
             Calibrated = true;
             Calibrating?.Invoke(this, Calibrated);
+        }
+
+        private bool IsMutableRPM()
+        {
+            var rpms = new List<int>();
+
+            for (var i = 100; i >= 0; i -= 10)
+            {
+                SetPercentage(i);
+                Thread.Sleep(TEN_SECOND);
+                rpms.Add((int)RPMSensor.Value / 100);
+            }
+
+            var descendingRPMs = rpms.OrderByDescending(x => x).ToList();
+
+            return descendingRPMs.First() != 0 && descendingRPMs.First() > descendingRPMs.Last();
         }
 
         /// <summary>

@@ -31,7 +31,22 @@
                     <TextBox x:Name="CpuFanRPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="CpuFanPercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetCpuFanPercentage">
+                    <Button x:Name="SetCpuFanPercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetCpuFanPercentage">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10,10,0,0">
+                    <Label Content="Pump Fan :"/>
+                    <TextBox x:Name="PumpFanPercentage" Text="" Margin="11,0,5,0" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
+                    <Label Content="%"/>
+                    <TextBox x:Name="PumpFanRPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
+                    <Label Content="RPM"/>
+                    <TextBox x:Name="PumpFanPercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
+                    <Button x:Name="SetPumpFanPercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetPumpFanPercentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
@@ -47,7 +62,7 @@
                     <TextBox x:Name="Fan1RPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="Fan1PercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan1Percentage">
+                    <Button x:Name="SetFan1PercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan1Percentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
@@ -63,7 +78,7 @@
                     <TextBox x:Name="Fan2RPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="Fan2PercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan2Percentage">
+                    <Button x:Name="SetFan2PercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan2Percentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
@@ -79,7 +94,7 @@
                     <TextBox x:Name="Fan3RPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="Fan3PercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan3Percentage">
+                    <Button x:Name="SetFan3PercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan3Percentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
@@ -95,7 +110,7 @@
                     <TextBox x:Name="Fan4RPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="Fan4PercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan4Percentage">
+                    <Button x:Name="SetFan4PercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan4Percentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
@@ -111,7 +126,7 @@
                     <TextBox x:Name="Fan5RPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="Fan5PercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan5Percentage">
+                    <Button x:Name="SetFan5PercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan5Percentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
@@ -127,7 +142,7 @@
                     <TextBox x:Name="Fan6RPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="Fan6PercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan6Percentage">
+                    <Button x:Name="SetFan6PercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan6Percentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
@@ -143,7 +158,7 @@
                     <TextBox x:Name="Fan7RPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="Fan7PercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan7Percentage">
+                    <Button x:Name="SetFan7PercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetFan7Percentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
@@ -159,7 +174,7 @@
                     <TextBox x:Name="GpuFan1RPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="GpuFan1PercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetGpuFan1Percentage">
+                    <Button x:Name="SetGpuFan1PercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetGpuFan1Percentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>
@@ -175,7 +190,7 @@
                     <TextBox x:Name="GpuFan2RPM" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                     <Label Content="RPM"/>
                     <TextBox x:Name="GpuFan2PercentageNew" Text="" Margin="5,0,5,0" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetGpuFan2Percentage">
+                    <Button x:Name="SetGpuFan2PercentageBtn" Content="Set%" VerticalAlignment="Center" Height="30" Margin="20,0,0,0" Click="SetGpuFan2Percentage">
                         <Button.ContentTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" Style="{StaticResource BlackTextBlock}"/>

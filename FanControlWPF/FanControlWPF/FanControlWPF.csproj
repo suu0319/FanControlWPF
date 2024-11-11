@@ -9,6 +9,12 @@
 
     <ItemGroup>
       <PackageReference Include="HidSharp" Version="2.1.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LibreHardwareMonitorLibrary\LibreHardwareMonitorLibrary.csproj" />
+      <ProjectReference Include="..\LibreHardwareMonitorLib\LibreHardwareMonitorLib.csproj" />
     </ItemGroup>
 
 </Project>
