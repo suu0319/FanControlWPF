@@ -189,15 +189,18 @@ namespace FanControlWPF
         private void AssignFanInfo(HardwareInfo? info, TextBox percentage, TextBox rpm, TextBox newPercentage, Button setBtn)
         {
             var configInfo = _config.HardwareInfos.Find(x => x.Name == info.Name);
-            
-            Dispatcher.Invoke(() =>
-            {
-                percentage.Text = info.Percentage.ToString();
-                rpm.Text = info.RPM.ToString();
 
-                newPercentage.IsEnabled = configInfo.Controlable;
-                setBtn.IsEnabled = configInfo.Controlable;
-            });
+            if (configInfo != null)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    percentage.Text = info.Percentage.ToString();
+                    rpm.Text = info.RPM.ToString();
+
+                    newPercentage.IsEnabled = configInfo.Controlable;
+                    setBtn.IsEnabled = configInfo.Controlable;
+                });
+            }
         }
         
         private void UpdateConfig()
