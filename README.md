@@ -3,7 +3,7 @@
 Fan Control Application Using WPF and [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
 
 ## Skills  
-- Using JSON to read and write fan information
+- Utilizing JSON for Reading and Writing Fan Data
 - Fan calibration
 
 ## Preview
