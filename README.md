@@ -1,6 +1,6 @@
 # FanControlWPF
 ## Intro
-Fan Control Application Using WPF and [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
+Use WPF to create a fan control application by reading data from [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
 
 ## Skills  
 - Utilizing JSON for Reading and Writing Fan Data
