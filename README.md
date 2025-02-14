@@ -1,5 +1,5 @@
 # FanControlWPF
-## About
+## Intro
 Fan Control Application Using WPF and [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
 
 ## Skills  
